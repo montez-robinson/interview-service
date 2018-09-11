@@ -17,7 +17,7 @@ a microservice design.
 To build compute, execute:
 
 ```
-$ git clone ssh://git@almgit.ncr.com:7999/nep/nep-compute.git
+$ git clone https://github.com/montez-robinson/interview-service.git
 $ cd interview-service
 $ mvn clean install
 ```
