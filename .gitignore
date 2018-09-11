@@ -12,6 +12,7 @@
 
 ### IntelliJ IDEA ###
 .idea
+.clover
 *.iws
 *.iml
 *.ipr
