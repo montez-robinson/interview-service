@@ -1,0 +1,114 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.robinsm</groupId>
+    <artifactId>interview-service-proxy</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+            <distribution>repo</distribution>
+            <comments>
+                Copyright (C) 2015 Apigee Corporation
+
+                Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
+                compliance with the License. You may obtain a copy of the License at
+
+                http://www.apache.org/licenses/LICENSE-2.0
+
+                Unless required by applicable law or agreed to in writing, software distributed under the License is
+                distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+                implied. See the License for the specific language governing permissions and limitations under the
+                License.
+            </comments>
+        </license>
+    </licenses>
+
+    <!-- Properties that ought to be defined in project:
+         ** apigee.edge.skip: [default: false]
+              skip the packaging and deployment to edge?
+         ** apigee.edge.orgname:
+              What org name to deploy to (user must have rights)
+         ** apigee.edge.username:
+              What user to authenticate (must have rights to the defined org)
+         ** apigee.edge.password:
+              What password to use in authenticating the user
+         ** apigee.edge.profile: [default: test]
+              What profile to use (generally, test or prod)
+         ** apigee.edge.env: [default: apigee.edge.profile]
+              What environment to deploy to (generally test or prod)
+    -->
+    <properties>
+        <apigee.edge.skip>false</apigee.edge.skip>
+        <apigee.edge.env>test</apigee.edge.env>
+        <orgName>${env.apigee_org}</orgName>
+        <orgUserId>${env.apigee_usr}</orgUserId>
+        <orgPassword>${env.apigee_pwd}</orgPassword>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <org>${orgName}</org>
+        <options>validate</options>
+        <apigee.profile>{test}</apigee.profile>
+        <apigee.env>test</apigee.env>
+        <apigee.hosturl>https://api.enterprise.apigee.com</apigee.hosturl>
+        <apigee.apiversion>v1</apigee.apiversion>
+        <apigee.org>${org}</apigee.org>
+        <apigee.username>${orgUserId}</apigee.username>
+        <apigee.password>${orgPassword}</apigee.password>
+        <apigee.options>${options}</apigee.options>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.7</version>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/target/apiproxy</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${basedir}/apiproxy</directory>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>io.apigee.build-tools.enterprise4g</groupId>
+                <artifactId>apigee-edge-maven-plugin</artifactId>
+                <version>1.0.1</version>
+                <configuration>
+                    <skip>false</skip>
+                    <!-- Use this module level config to skip module build. Make it true -->
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>configure-bundle</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>configure</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>deploy-bundle</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>deploy</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

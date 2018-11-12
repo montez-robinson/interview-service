@@ -23,3 +23,11 @@ $ mvn clean install
 ```
 
 **NOTE**: This is a fluid repository, meaning that commits are pending for added/updated functionality and BDD Scenarios.
+
+### Interview design functionality approach
+
+1. Who will use it? And why?
+2. What are the use cases? 
+3. What are the bounds of use?
+4. What are the stress/failure conditions?
+5. How would you perform the testing?
